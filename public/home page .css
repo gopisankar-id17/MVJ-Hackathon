@@ -1,0 +1,26 @@
+.sos-button {
+    position: fixed;
+    bottom: 20px; 
+    right: 20px;
+    background: #ff0000;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    animation: pulse 1.5s infinite;
+    z-index: 1000;
+}
+
+/* SOS Pulse Animation */
+@keyframes pulse {
+    0% { box-shadow: 0 0 10px #ff0000; }
+    50% { box-shadow: 0 0 30px #ff4d4d; }
+    100% { box-shadow: 0 0 10px #ff0000; }
+}
+
+.sos-button:hover {
+    background: #cc0000;
+}

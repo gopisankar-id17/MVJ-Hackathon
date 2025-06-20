@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask Questions?</title>
+    <link rel="stylesheet" href="css/ai.css"> <!-- Make sure the path to CSS is correct -->
+    <link rel="stylesheet" href="questions.css"> <!-- Make sure the path to CSS is correct -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="icons/logo.png" alt="Logo">
+            </div>
+            <ul class="menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="courses.html"><i class="fas fa-book"></i> Hospitals</a></li>
+                <li><a href="#"><i class="fas fa-user-graduate"></i> Get Help</a></li>
+                <li><a href="askquestions.html" class="active"><i class="fas fa-question-circle"></i> Ask Questions?</a></li>
+            </ul>
+            
+            <div class="profile">
+                <center><img src="icons/user.png" alt="Profile"></center>
+                <span>User name</span>
+                <p>User</p>
+                <div class="logout">Logout</div>
+            </div>
+        </div>
+
+        <!-- Main Content - Chatbot -->
+        <div class="main-content">
+            <div class="chat-container">
+                <div class="chat-header">Chat with AI</div>
+                <div class="chat-box" id="chat-box">
+                    <div class="bot-message">👋 Hello! Ask me anything.</div>
+                </div>
+                <div class="chat-input">
+                    <button id="voice-btn"><i class="fas fa-microphone"></i></button>
+                    <input type="text" id="user-input" placeholder="Type your question...">
+                    <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="aiscript.js"></script> <!-- Link to your JS file -->
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SOS Alert</title>
+</head>
+<body>
+    <h1>Emergency SOS</h1>
+    <button id="sosButton">Send SOS</button>
+
+    <script>
+        document.getElementById('sosButton').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/send-sos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        phoneNumber: '+1234567890', // Emergency number
+                        message: '🚨 SOS! I need help immediately!'
+                    })
+                });
+
+                if (response.ok) {
+                    alert('SOS sent successfully!');
+                } else {
+                    alert('Failed to send SOS.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error sending SOS.');
+            }
+        });
+    </script>
+</body>
+</html>
