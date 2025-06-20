@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ambulance Tracker (Leaflet + Google Traffic)</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map { height: 100vh; width: calc(100% - 270px); position: absolute; top: 0; right: 0; }
+        #sidebar { position: absolute; top: 10px; left: 10px; width: 250px; height: 90vh; background: white; overflow-y: auto; padding: 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); z-index: 10000; }
+        button { display: block; margin: 5px 0; width: 100%; padding: 8px; border: none; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .hospital-item { padding: 8px; border-bottom: 1px solid #ddd; cursor: pointer; }
+        .hospital-item:hover { background: #f0f0f0; }
+        .selected { background: #ffeb3b; font-weight: bold; }
+        .notify-btn { background-color: red; color: white; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <button onclick="getUserLocation()">📍 Get Location</button>
+        <button onclick="findHospitals()">🏥 Find Hospitals</button>
+        <button onclick="findNearestHospital()">🔍 Nearest Hospital</button>
+        <h3>Hospitals Nearby</h3>
+        <div id="hospital-list">Click "Find Hospitals" to load nearby hospitals.</div>
+    </div>
+    <div id="map"></div>
+
+    <script>
+        let map, ambulanceMarker, routeLayer;
+        let hospitalMarkers = [];
+        let hospitals = [];
+        let userLocation = null;
+        let selectedHospital = null;
+
+        function initMap() {
+            map = L.map("map").setView([12.9716, 77.5946], 14);
+
+            // Google Traffic Layer
+            L.tileLayer(`https://mt1.google.com/vt/lyrs=m@221097413,traffic&x={x}&y={y}&z={z}&key=YOUR_API_KEY`, {
+                attribution: '&copy; Google Maps'
+            }).addTo(map);
+
+            ambulanceMarker = L.marker([12.9716, 77.5946], { 
+                icon: L.icon({ 
+                    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png", 
+                    iconSize: [25, 41], 
+                    iconAnchor: [12, 41] 
+                }) 
+            }).addTo(map).bindPopup("Your Location");
+        }
+
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    userLocation = [position.coords.latitude, position.coords.longitude];
+                    map.setView(userLocation, 14);
+                    ambulanceMarker.setLatLng(userLocation);
+                }, () => alert("Unable to retrieve location."), { enableHighAccuracy: true });
+            } else {
+                alert("Geolocation not supported.");
+            }
+        }
+
+        function findHospitals() {
+            if (!userLocation) { alert("Get your location first."); return; }
+            document.getElementById("hospital-list").innerHTML = "Searching...";
+            const url = `https://overpass-api.de/api/interpreter?data=[out:json];node(around:5000,${userLocation[0]},${userLocation[1]})[amenity=hospital];out;`;
+            fetch(url)
+                .then((res) => res.json())
+                .then((data) => {
+                    hospitals = data.elements.map(h => ({ name: h.tags.name || "Unnamed Hospital", lat: h.lat, lon: h.lon }));
+                    hospitalMarkers.forEach(marker => marker.remove());
+                    hospitalMarkers = [];
+                    let list = document.getElementById("hospital-list");
+                    list.innerHTML = "";
+                    hospitals.forEach(hospital => {
+                        let marker = L.marker([hospital.lat, hospital.lon]).addTo(map).bindPopup(`<strong>${hospital.name}</strong>`).on("click", () => selectHospital(hospital));
+                        hospitalMarkers.push(marker);
+                        let item = document.createElement("div");
+                        item.className = "hospital-item";
+                        item.innerHTML = `<strong>${hospital.name}</strong>`;
+                        item.onclick = () => selectHospital(hospital);
+                        list.appendChild(item);
+                    });
+                })
+                .catch(() => alert("Hospital search failed."));
+        }
+
+        function findNearestHospital() {
+            if (!userLocation || hospitals.length === 0) { alert("Find hospitals first."); return; }
+            let nearest = hospitals.reduce((prev, curr) => (distance(userLocation, [curr.lat, curr.lon]) < distance(userLocation, [prev.lat, prev.lon]) ? curr : prev));
+            selectHospital(nearest);
+        }
+
+        function distance(loc1, loc2) {
+            const toRad = (x) => (x * Math.PI) / 180;
+            const R = 6371;
+            const dLat = toRad(loc2[0] - loc1[0]);
+            const dLon = toRad(loc2[1] - loc1[1]);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRad(loc1[0])) * Math.cos(toRad(loc2[0])) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+        }
+
+        function selectHospital(hospital) {
+            selectedHospital = hospital;
+            document.querySelectorAll(".hospital-item").forEach(item => item.classList.remove("selected"));
+            document.querySelectorAll(".hospital-item").forEach(item => {
+                if (item.innerText.includes(hospital.name)) {
+                    item.classList.add("selected");
+                }
+            });
+            getDirections([hospital.lat, hospital.lon]);
+            updateHospitalList();
+        }
+
+        function getDirections(destination) {
+            if (!userLocation) { alert("Get your location first."); return; }
+            const url = `https://router.project-osrm.org/route/v1/driving/${userLocation[1]},${userLocation[0]};${destination[1]},${destination[0]}?overview=full&geometries=geojson`;
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.routes.length > 0) {
+                        if (routeLayer) map.removeLayer(routeLayer);
+                        routeLayer = L.polyline(data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]), { color: "blue", weight: 5 }).addTo(map);
+                        map.fitBounds(routeLayer.getBounds());
+                    } else {
+                        alert("No route found.");
+                    }
+                })
+                .catch(() => alert("Directions request failed."));
+        }
+
+        function updateHospitalList() {
+            let list = document.getElementById("hospital-list");
+            list.innerHTML = "";
+            hospitals.forEach(hospital => {
+                let item = document.createElement("div");
+                item.className = "hospital-item";
+                if (selectedHospital && hospital.name === selectedHospital.name) {
+                    item.classList.add("selected");
+                    item.innerHTML = `<strong>${hospital.name}</strong> <a href="http://127.0.0.1:5000/hospital_alert" class="notify-btn" onclick="notifyHospital('${hospital.name}')">🚑 Notify Hospital</a>`;
+                } else {
+                    item.innerHTML = `<strong>${hospital.name}</strong>`;
+                }
+                item.onclick = () => selectHospital(hospital);
+                list.appendChild(item);
+            });
+        }
+
+        function notifyHospital(name) {
+            alert(`🚑 Notification sent to ${name}!`);
+        }
+
+        initMap();
+    </script>
+</body>
+</html>

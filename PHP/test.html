@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Ambulance Tracker (Leaflet)</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        #controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 5;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="controls" style="z-index: 10000;">
+        <input id="destination" type="text" placeholder="Enter destination" />
+        <button onclick="getDirections()">Get Directions</button>
+        <button onclick="findHospitals()">Find Hospitals</button>
+        <button onclick="getUserLocation()">Get Location</button>
+    </div>
+    <div id="map"></div>
+
+    <script>
+        let map, ambulanceMarker, destinationMarker, hospitalMarkers = [];
+
+        function initMap() {
+            const defaultLocation = [12.9716, 77.5946]; // Bangalore
+
+            map = L.map('map').setView(defaultLocation, 14);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            ambulanceMarker = L.marker(defaultLocation).addTo(map).bindPopup("Ambulance");
+            destinationMarker = L.marker([0, 0]).addTo(map).bindPopup("Destination").setOpacity(0); // Hidden initially
+
+            //Removed watch position. Now only get location button will fetch location.
+        }
+
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const userLocation = [position.coords.latitude, position.coords.longitude];
+                        map.setView(userLocation, 14);
+                        ambulanceMarker.setLatLng(userLocation);
+                    },
+                    () => alert("Unable to retrieve location."),
+                    { enableHighAccuracy: true }
+                );
+            } else {
+                alert("Geolocation not supported by your browser.");
+            }
+        }
+
+        function getDirections() {
+            const destination = document.getElementById("destination").value;
+            if (!destination) {
+                alert("Please enter a destination.");
+                return;
+            }
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const origin = [position.coords.latitude, position.coords.longitude];
+
+                    // Using OpenRouteService for directions (requires API key)
+                    const orsApiKey = 'YOUR_OPENROUTESERVICE_API_KEY'; // Replace with your API key
+                    const orsUrl = https://api.openrouteservice.org/v2/directions/driving?api_key=${orsApiKey}&start=${origin[1]},${origin[0]}&end=${destination};
+
+                    fetch(orsUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.features && data.features.length > 0) {
+                                const coordinates = data.features[0].geometry.coordinates.map(coord => [coord[1], coord[0]]);
+                                L.polyline(coordinates, { color: 'blue' }).addTo(map);
+
+                                // Update and show destination marker
+                                const endCoordinates = coordinates[coordinates.length - 1];
+                                destinationMarker.setLatLng(endCoordinates).setOpacity(1);
+                                map.fitBounds(L.polyline(coordinates).getBounds());
+
+                            } else {
+                                alert("Directions not found.");
+                            }
+                        })
+                        .catch(error => alert("Directions request failed: " + error));
+                });
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        }
+
+        function findHospitals() {
+            hospitalMarkers.forEach(marker => marker.remove());
+            hospitalMarkers = [];
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const location = [position.coords.latitude, position.coords.longitude];
+
+                    // Using Overpass API for hospital search
+                    const overpassUrl = https://overpass-api.de/api/interpreter?data=[out:json];node(around:5000,${location[0]},${location[1]})[amenity=hospital];out;;
+
+                    fetch(overpassUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.elements) {
+                                data.elements.forEach(hospital => {
+                                    const hospitalLocation = [hospital.lat, hospital.lon];
+                                    const marker = L.marker(hospitalLocation).addTo(map).bindPopup(hospital.tags.name || "Hospital");
+                                    hospitalMarkers.push(marker);
+                                });
+                            } else {
+                                alert("No hospitals found.");
+                            }
+                        })
+                        .catch(error => alert("Hospital search failed: " + error));
+                });
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        }
+
+        initMap();
+    </script>
+</body>
+
+</html>
