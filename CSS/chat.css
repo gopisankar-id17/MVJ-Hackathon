@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: #f3f3f3;
+}
+
+.chat-container {
+    display: flex;
+    height: 90vh;
+    margin: 20px;
+}
+
+/* Sidebar */
+.chat-sidebar {
+    width: 250px;
+    background: #024aff;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.chat-sidebar ul {
+    list-style: none;
+}
+
+.chat-user {
+    padding: 10px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+    margin-bottom: 10px;
+    border-radius: 5px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.chat-user:hover,
+.chat-user.active {
+    background: white;
+    color: #024aff;
+}
+
+/* Chat Box */
+.chat-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 10px;
+    margin-left: 20px;
+    overflow: hidden;
+    
+}
+
+.chat-window {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chat-window.active {
+    display: flex;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    max-width: 70%;
+    padding: 10px 15px;
+    margin: 8px 10px;
+    border-radius: 20px;
+    position: relative;
+    font-size: 14px;
+}
+
+.sent {
+    color: #024aff;
+    align-self: flex-end;
+}
+
+.received {
+    background: #ddd;
+    color: black;
+    align-self: flex-start;
+}
+
+/* File preview */
+.message img,
+.message video,
+.message audio {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+/* Reply Box */
+.reply-box {
+    display: none;
+    padding: 10px;
+    background: #dfe6ff;
+    color: black;
+    font-size: 12px;
+    border-left: 4px solid #024aff;
+}
+
+.reply-box span {
+    cursor: pointer;
+    float: right;
+}
+
+/* Input Area */
+.chat-input {
+    display: flex;
+    padding: 10px;
+    background: white;
+
+    align-items: center;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.label-file {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
+    margin-right: 10px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 12px;
+    border-radius: 25px;
+    outline: none;
+    border:none;
+}
+
+button {
+    padding: 10px;
+    background: #024aff;
+    color: white;
+    border-radius: 10%;
+    border: none;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    max-width: 70%;
+    padding: 10px 15px;
+    margin: 8px 10px;
+    border-radius: 20px;
+    position: relative;
+    font-size: 14px;
+}
+

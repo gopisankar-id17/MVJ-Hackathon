@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #333;
+}
+
+.nav {
+    display: flex;
+    position: sticky;
+    top: 0;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 20%;
+    padding: 2%;
+    background: #024aff;
+    z-index: 50;
+}
+
+.nav-logo {
+    font-size: 24px;
+}
+
+.nav a:hover {
+    border-bottom: 2px solid white;
+}
+
+.nav-middle a {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-logo a {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-right a {
+    text-decoration: none;
+    color: white;
+}
+
+/* About Section */
+.about-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px;
+}
+
+.text-data {
+    flex: 1;
+    padding-right: 40px;
+}
+
+.text-data h1 {
+    font-size: 40px;
+    color: #024aff;
+    margin-bottom: 15px;
+}
+
+.text-data h2 {
+    font-size: 32px;
+    color: #024aff;
+    margin-bottom: 10px;
+}
+
+.text-data p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.text-data ul {
+    list-style: none;
+}
+
+.text-data li {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.text-data li b {
+    color: #024aff;
+}
+
+/* Image Section */
+.image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.image-container img {
+    width: 60%;
+    border-radius: 10px;
+}
+
+/* Team Section */
+.team-section {
+    text-align: center;
+    padding: 50px;
+    background: #fff;
+}
+
+.team-section h2 {
+    font-size: 35px;
+    color: #024aff;
+    margin-bottom: 20px;
+}
+
+.team-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.team-member {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 250px;
+}
+
+.team-member img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.team-member h3 {
+    font-size: 22px;
+    color: #024aff;
+}
+
+.team-member p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+
+    .about-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px;
+    }
+
+    .text-data {
+        padding: 0;
+    }
+
+    .image-container img {
+        width: 80%;
+    }
+
+    .team-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}

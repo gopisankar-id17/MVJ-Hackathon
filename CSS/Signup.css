@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.cointainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(45deg,#48a4ff , #0015ff);
+    font-family: "Poppins", serif;
+}
+
+h1 {
+    color: #0015ff;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: white;
+    padding: 5% 2% 5% 2%;
+    margin: 5% 0% 5% 0%;
+}
+
+.form-input {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+        
+}
+
+.form-input input {
+    outline: none;
+    border-bottom: 1px solid #0015ff ;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width:300px;
+    height: 35px;
+    margin: 2% 0% 2% 0%;
+}
+
+
+.form-input input::placeholder{
+    font-family: "Poppins", serif;
+}
+
+.form-input input[type=submit] {
+    outline: none;
+    border: none;
+    background: #0015ff;
+    color: white;
+    width:305px;
+    margin-top: 5%;
+    font-family: "Poppins", serif;
+}
+
+.form-input input[type=submit]:hover {
+    width:305px;
+    background: #3f4fff;
+    transform:scale(1.1);
+    transition: .2s;
+}
+
+.rules {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #0015ff;
+    color: white;
+    padding: 14% 2% 14% 2%;
+}
+
+.rules h1{
+    color: white;
+}
+
+.rules ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

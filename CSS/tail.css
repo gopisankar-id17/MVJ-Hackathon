@@ -1,0 +1,876 @@
+/* src/styles/enhanced-main.css */
+
+/* Import Tailwind base, components, and utilities */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Enhanced CSS Variables with Extended Color Palette */
+:root {
+  /* Primary Colors */
+  --primary-blue: #1d4ed8;
+  --primary-blue-dark: #1e40af;
+  --primary-blue-light: #3b82f6;
+  --primary-blue-ultralight: #eff6ff;
+  --secondary-blue: #93c5fd;
+  
+  /* Emergency Colors */
+  --emergency-red: #dc2626;
+  --emergency-red-dark: #b91c1c;
+  --emergency-red-light: #ef4444;
+  --emergency-red-ultralight: #fee2e2;
+  
+  /* Status Colors */
+  --success-green: #10b981;
+  --success-green-dark: #047857;
+  --success-green-light: #34d399;
+  --warning-amber: #f59e0b;
+  --warning-amber-dark: #d97706;
+  --warning-amber-light: #fbbf24;
+  --danger-red: #ef4444;
+  --danger-red-dark: #b91c1c;
+  --info-blue: #3b82f6;
+  --info-blue-dark: #2563eb;
+  
+  /* Text Colors */
+  --text-dark: #1f2937;
+  --text-medium: #4b5563;
+  --text-light: #f9fafb;
+  --text-gray: #6b7280;
+  
+  /* Background Colors */
+  --bg-light: #f3f4f6;
+  --bg-white: #ffffff;
+  --bg-gray-50: #f9fafb;
+  --bg-gray-100: #f3f4f6;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  --shadow-blue: 0 0 15px rgba(59, 130, 246, 0.5);
+  --shadow-red: 0 0 15px rgba(239, 68, 68, 0.5);
+  
+  /* Animation Speed */
+  --animation-speed-fast: 0.15s;
+  --animation-speed: 0.3s;
+  --animation-speed-slow: 0.5s;
+  
+  /* Z-index layers */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  
+  /* Border Radius */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+}
+
+/* Enhanced General Styles with Advanced Typography */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-dark);
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-light);
+  overflow-x: hidden;
+  transition: background-color var(--animation-speed);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'DM Sans', 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.5em;
+}
+
+a {
+  color: var(--primary-blue);
+  text-decoration: none;
+  transition: all var(--animation-speed);
+}
+
+a:hover {
+  color: var(--primary-blue-dark);
+}
+
+/* Advanced custom animations */
+@keyframes pulse-emergency {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+  }
+  
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+  
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-pulse-emergency {
+  animation: pulse-emergency 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out forwards;
+}
+
+/* Enhanced Button Styles with Micro-interactions */
+.btn {
+  @apply inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md font-medium text-base transition-all duration-300 shadow-md relative overflow-hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.7s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:active {
+  transform: translateY(2px);
+}
+
+.btn-primary {
+  @apply bg-blue-700 text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50;
+  background-image: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+}
+
+.btn-emergency {
+  @apply bg-red-600 text-white hover:bg-red-700 focus:ring-4 focus:ring-red-300 focus:ring-opacity-50 animate-pulse-emergency;
+  background-image: linear-gradient(135deg, var(--emergency-red) 0%, var(--emergency-red-dark) 100%);
+  box-shadow: 0 4px 20px -5px rgba(220, 38, 38, 0.5);
+}
+
+.btn-secondary {
+  @apply bg-white text-blue-700 hover:bg-gray-100 border-blue-700 focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50;
+}
+
+.btn-success {
+  @apply bg-green-500 text-white hover:bg-green-600 focus:ring-4 focus:ring-green-300 focus:ring-opacity-50;
+  background-image: linear-gradient(135deg, var(--success-green-light) 0%, var(--success-green) 100%);
+}
+
+.btn-warning {
+  @apply bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50;
+  background-image: linear-gradient(135deg, var(--warning-amber-light) 0%, var(--warning-amber) 100%);
+}
+
+.btn-icon {
+  @apply inline-flex items-center justify-center p-2 rounded-full;
+}
+
+/* Enhanced Navigation Styles with Glassmorphism */
+.navbar {
+  @apply bg-blue-700 text-white sticky top-0 z-50;
+  background-image: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-glass {
+  background: rgba(29, 78, 216, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+  @apply flex items-center text-xl font-bold;
+  letter-spacing: -0.02em;
+}
+
+.navbar-menu {
+  @apply hidden md:flex md:items-center md:space-x-4;
+}
+
+.navbar-item {
+  @apply px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600 transition-colors duration-300 relative;
+}
+
+.navbar-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: white;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navbar-item:hover::after {
+  width: 80%;
+}
+
+.navbar-item.active::after {
+  width: 80%;
+}
+
+.navbar-emergency {
+  @apply ml-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md transition-colors duration-300;
+  background-image: linear-gradient(135deg, var(--emergency-red) 0%, var(--emergency-red-dark) 100%);
+  box-shadow: 0 4px 12px -2px rgba(220, 38, 38, 0.5);
+}
+
+.navbar-emergency:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px -2px rgba(220, 38, 38, 0.6);
+}
+
+/* Redesigned Hero Section with Advanced Effects */
+.hero-section {
+  @apply py-20 relative overflow-hidden;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 80%);
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,229.3C672,256,768,288,864,272C960,256,1056,192,1152,170.7C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+  background-size: cover;
+  background-position: bottom;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 80% 20%, rgba(147, 197, 253, 0.3) 0%, transparent 50%);
+}
+
+.hero-content {
+  @apply relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.hero-title {
+  @apply text-4xl md:text-6xl font-bold mb-6 text-white animate-fade-in-up;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  letter-spacing: -0.03em;
+  opacity: 0;
+  animation-delay: 0.2s;
+}
+
+.hero-subtitle {
+  @apply text-xl md:text-2xl mb-8 text-blue-100 animate-fade-in-up;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  animation-delay: 0.4s;
+}
+
+.hero-cta {
+  @apply animate-fade-in-up;
+  opacity: 0;
+  animation-delay: 0.6s;
+}
+
+/* Enhanced Feature Card Styles with Neumorphism & Hover Effects */
+.feature-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8;
+}
+
+.feature-card {
+  @apply p-6 rounded-xl transition-all duration-500 bg-white relative overflow-hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+  z-index: 1;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-xl);
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.1) translateY(-5px);
+}
+
+.feature-icon {
+  @apply text-5xl text-blue-600 mb-4 transition-all duration-500 relative z-10;
+}
+
+.feature-title {
+  @apply text-xl font-semibold mb-2 relative z-10;
+  background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.feature-text {
+  @apply text-gray-600 relative z-10;
+}
+
+/* Chat Interface Enhancements with Advanced Styling */
+.chat-container {
+  @apply max-w-4xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden;
+  height: 650px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(147, 197, 253, 0.3);
+}
+
+.chat-header {
+  @apply p-4 relative z-10;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+}
+
+.chat-header-title {
+  @apply text-xl font-semibold text-white flex items-center;
+}
+
+.chat-header-title::before {
+  content: "●";
+  color: var(--success-green);
+  margin-right: 8px;
+  animation: pulse 2s infinite;
+}
+
+.chat-messages {
+  @apply p-4 flex-grow overflow-y-auto;
+  background-color: #f8fafc;
+  background-image: 
+    radial-gradient(at 10% 90%, rgba(59, 130, 246, 0.03) 0, transparent 50%),
+    radial-gradient(at 90% 10%, rgba(220, 38, 38, 0.03) 0, transparent 50%);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.3) rgba(241, 245, 249, 0.5);
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.5);
+  border-radius: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: rgba(59, 130, 246, 0.3);
+  border-radius: 4px;
+}
+
+.chat-message {
+  @apply mb-4 max-w-3/4 opacity-0;
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.chat-message-patient {
+  @apply ml-auto animate-slide-in-right;
+}
+
+.chat-message-patient .chat-bubble {
+  @apply text-blue-800 relative;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border-radius: 18px 18px 0 18px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.chat-message-doctor {
+  @apply mr-auto animate-slide-in-left;
+}
+
+.chat-message-doctor .chat-bubble {
+  @apply text-green-800 relative;
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border-radius: 18px 18px 18px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.chat-message-driver {
+  @apply mr-auto animate-slide-in-left;
+}
+
+.chat-message-driver .chat-bubble {
+  @apply text-yellow-800 relative;
+  background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%);
+  border-radius: 18px 18px 18px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.chat-message-system {
+  @apply mx-auto max-w-md text-center;
+}
+
+.chat-message-system .chat-bubble {
+  @apply bg-gray-100 text-gray-700 inline-block;
+  border-radius: 18px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.chat-bubble {
+  @apply p-3 inline-block;
+  word-break: break-word;
+}
+
+.chat-sender {
+  @apply text-xs text-gray-500 mt-1 flex items-center;
+}
+
+.chat-sender.doctor::before {
+  content: "👨‍⚕️";
+  margin-right: 4px;
+}
+
+.chat-sender.driver::before {
+  content: "🚑";
+  margin-right: 4px;
+}
+
+.chat-timestamp {
+  @apply text-xs text-gray-400 ml-2;
+}
+
+.chat-input-container {
+  @apply p-4 border-t border-gray-200 bg-white;
+}
+
+.chat-input-wrapper {
+  @apply flex relative;
+}
+
+.chat-input {
+  @apply flex-grow px-4 py-3 pr-12 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm;
+  transition: all 0.3s;
+}
+
+.chat-send-button {
+  @apply absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-700 text-white p-2 rounded-full hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300;
+}
+
+.chat-send-button:hover {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.4);
+}
+
+/* Enhanced Typing Indicator with smooth animation */
+.typing-indicator {
+  @apply inline-flex items-center p-2 bg-gray-100 rounded-full px-4 py-2;
+}
+
+.typing-indicator span {
+  height: 8px;
+  width: 8px;
+  margin: 0 2px;
+  background-color: var(--primary-blue);
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.4;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation: typing 1.4s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+.typing-indicator span:nth-child(2) {
+  animation: typing 1.4s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95) 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation: typing 1.4s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95) 0.4s;
+}
+
+@keyframes typing {
+  0% {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-5px);
+  }
+  100% {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+}
+
+/* Chat Type Selector with Enhanced Visuals */
+.chat-type-selector {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-8;
+  perspective: 1000px;
+}
+
+.chat-type-option {
+  @apply border-2 border-gray-200 rounded-xl p-8 cursor-pointer transition-all duration-500 bg-white relative overflow-hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transform-style: preserve-3d;
+}
+
+.chat-type-option:hover {
+  @apply border-blue-500;
+  transform: translateY(-5px) rotateX(5deg);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.chat-type-option::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(59, 130, 246, 0.05));
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.chat-type-option:hover::before {
+  opacity: 1;
+}
+
+.chat-type-option.selected {
+  @apply border-blue-600 bg-blue-50;
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
+}
+
+.chat-type-icon {
+  @apply text-4xl mb-3 relative z-10;
+  transform: translateZ(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary-blue-ultralight) 0%, rgba(255, 255, 255, 0.5) 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.chat-type-title {
+  @apply text-xl font-semibold mb-2 relative z-10;
+  transform: translateZ(10px);
+  background: linear-gradient(90deg, var(--text-dark) 0%, var(--text-medium) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.chat-type-description {
+  @apply text-gray-600 relative z-10;
+  transform: translateZ(5px);
+}
+
+/* Enhanced Emergency Info Form */
+.emergency-form {
+  @apply bg-white shadow-xl rounded-xl p-8 relative overflow-hidden;
+  border: 1px solid rgba(147, 197, 253, 0.3);
+}
+
+.emergency-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+  z-index: 1;
+}
+
+.form-group {
+  @apply mb-6 relative;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-700 mb-2;
+  transition: all 0.3s;
+}
+
+.form-input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm;
+  transition: all 0.3s;
+}
+
+.form-input:focus {
+  @apply outline-none ring-2 ring-blue-500 border-blue-500;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.form-input:focus + .form-label,
+.form-input:not(:placeholder-shown) + .form-label {
+  @apply text-blue-600 transform -translate-y-6 scale-90 origin-left;
+}
+
+.form-input-error {
+  @apply border-red-500;
+}
+
+.form-input-error:focus {
+  @apply ring-2 ring-red-500 border-red-500;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+.form-error-text {
+  @apply mt-1 text-sm text-red-600 flex items-center;
+}
+
+.form-error-text::before {
+  content: "⚠️";
+  margin-right: 4px;
+}
+
+.form-submit {
+  @apply w-full mt-6;
+}
+
+/* Enhanced Status Indicators with Pulse Animation */
+.status-indicator {
+  @apply inline-flex h-3 w-3 rounded-full mr-2 relative;
+}
+
+.status-indicator::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  z-index: 0;
+  opacity: 0.5;
+  animation: pulse 2s infinite;
+}
+
+.status-online {
+  @apply bg-green-500;
+}
+
+.status-online::before {
+  @apply bg-green-500;
+}
+
+.status-offline {
+  @apply bg-red-500;
+}
+
+.status-offline::before {
+  @apply bg-red-500;
+}
+
+.status-busy {
+  @apply bg-yellow-500;
+}
+
+.status-busy::before {
+  @apply bg-yellow-500;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+}
+
+/* Enhanced Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5e7eb;
+  transition: .4s;
+  border-radius: 34px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .toggle-slider {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  }
+  
+  input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+  }
+  
+  input:focus + .toggle-slider {
+    box-shadow: 0 0 1px var(--primary-blue);
+  }
+  
+  /* Disabled state */
+  input:disabled + .toggle-slider {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* Animation for toggle */
+  .toggle-slider:before {
+    transition: transform var(--animation-speed) ease-in-out, background-color var(--animation-speed);
+  }
+  
+  /* Toggle label */
+  .toggle-label {
+    @apply ml-2 text-sm font-medium text-gray-700;
+  }
+  
+  /* Tooltip for toggle */
+  .toggle-tooltip {
+    @apply absolute -top-10 left-1/2 transform -translate-x-1/2 px-3 py-1 bg-gray-900 text-white text-xs rounded-md opacity-0 transition-opacity duration-300 pointer-events-none;
+    z-index: var(--z-tooltip);
+  }
+  
+  .toggle-switch:hover .toggle-tooltip {
+    opacity: 1;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .toggle-switch {
+      width: 50px;
+      height: 28px;
+    }
+    
+    .toggle-slider:before {
+      height: 20px;
+      width: 20px;
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(22px);
+    }
+  }
